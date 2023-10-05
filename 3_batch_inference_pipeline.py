@@ -5,15 +5,18 @@ from features.price import plot_historical_id, plot_prediction
 import joblib
 from datetime import datetime, timedelta
 
-
 st.header('📈 🔮Batch Inference Pipeline')
 
-st.markdown('📡 Connecting to Hopsworks Feature Store...')
+@st.cache_resource()
+def get_feature_store():
+    st.markdown('📡 Connecting to Hopsworks Feature Store...')
 
-project = hopsworks.login()
-fs = project.get_feature_store()
+    project = hopsworks.login()
+    fs = project.get_feature_store()
 
-st.write("✅ Logged in successfully!")
+    st.write("✅ Logged in successfully!")
+
+    return project, fs
 
 @st.cache_resource()
 def get_feature_group():
@@ -30,13 +33,14 @@ def get_feature_group():
 def get_feature_view():
     st.write("🪝 Retrieving the Feature View...")
     feature_view = fs.get_feature_view(
-        name = 'price_fv',
+        name = 'price_fv3',
         version = 1
     )
     st.write("✅ Success!")
 
     return feature_view
 
+project, fs = get_feature_store()
 price_fg = get_feature_group()
 feature_view = get_feature_view()
 
@@ -62,11 +66,11 @@ def retrieve_model():
     st.write("⚙️ Retrieving Model from Model Registry...")
     mr = project.get_model_registry()
     retrieved_model = mr.get_model(
-        name="xgboost_price_model",
+        name="xgboost_price_model2",
         version=1,
     )
     saved_model_dir = retrieved_model.download()
-    model = joblib.load(saved_model_dir + "/xgboost_price_model.pkl")
+    model = joblib.load(saved_model_dir + "/xgboost_price_model2.pkl")
 
     st.write("✅ Success!")
 

@@ -273,9 +273,13 @@ def plot_prediction(
     - fig (plotly.graph_objs.Figure): A Plotly figure object containing the generated time series plot.
     """
     data_sorted = data[data.id == id_to_show].sort_values('date')
+    data_sorted['date'] = pd.to_datetime(data_sorted['date'])
 
     time_ago = (datetime.datetime.strptime(week_ago, '%Y-%m-%d') - timedelta(days=210)).strftime("%Y-%m-%d")
-    data_historical = data_sorted[data_sorted.date <= week_ago][data_sorted.date >= time_ago]
+    data_historical = data_sorted.loc[
+        (data_sorted['date'] <= datetime.datetime.strptime(week_ago, "%Y-%m-%d")) &
+        (data_sorted['date'] >= datetime.datetime.strptime(time_ago, "%Y-%m-%d"))
+    ]
     data_last_week = data_sorted[data_sorted.date > week_ago]
 
     # Create a Plotly figure
