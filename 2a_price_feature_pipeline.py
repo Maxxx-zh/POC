@@ -14,7 +14,7 @@ project = hopsworks.login()
 fs = project.get_feature_store() 
 
 # Retrieve Price Feature Group
-price_fg = fs.get_or_create_feature_group(
+price_fg = fs.get_feature_group(
     name='price',
     version=1,
 )

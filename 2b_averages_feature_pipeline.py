@@ -9,12 +9,12 @@ project = hopsworks.login()
 fs = project.get_feature_store() 
 
 # Retrieve Averages Feature Group
-averages_fg = fs.get_or_create_feature_group(
+averages_fg = fs.get_feature_group(
     name='averages',
     version=1,
 )
 # Retrieve Price Feature Group
-price_fg = fs.get_or_create_feature_group(
+price_fg = fs.get_feature_group(
     name='price',
     version=1,
 )

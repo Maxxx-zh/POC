@@ -18,7 +18,7 @@ st.write("✅ Logged in successfully!")
 @st.cache_resource()
 def get_feature_group():
     st.write("🪝 Retrieving the Price Feature Group...")
-    price_fg = fs.get_or_create_feature_group(
+    price_fg = fs.get_feature_group(
         name='price',
         version=1,
     )
